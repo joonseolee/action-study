@@ -7,6 +7,7 @@ on:
 env:
   AWS_REGION: ap-northeast-2
   S3_BUCKET_NAME: joonseolee
+  JAR_FILE_NAME: action-study-0.0.1-SNAPSHOT.jar
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -41,6 +42,18 @@ jobs:
       with:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: ap-northeast-2
+        aws-region: ${{ env.AWS_REGION }}
     - name: Upload S3
-      run: aws s3 cp --region ap-northeast-2 ./build/libs/*.jar s3://$S3_BUCKET_NAME
+      run: aws s3 cp --region ${{ env.AWS_REGION }} ./build/libs/*.jar s3://$S3_BUCKET_NAME
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy the jar in the s3
+        uses: appleboy/ssh-action@master
+        with:
+          key: ${{ secrets.AWS_EC2_KEY }}
+          host: ${{ secrets.AWS_EC2_HOST }}
+          username: ${{ secrets.AWS_EC2_USER }}
+          script: |
+            aws s3 cp s3://$S3_BUCKET_NAME/$JAR_FILE_NAME ./
+            nohup java -jar $JAR_FILE_NAME &

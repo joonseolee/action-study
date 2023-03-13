@@ -1,0 +1,15 @@
+### GET 회사 전체 조회
+GET http://localhost:8080/api/companies
+Accept: application/json
+
+### GET 회사 단일 조회
+GET http://localhost:8080/api/companies/1
+Accept: application/json
+
+### POST 회사 등록
+POST http://localhost:8080/api/companies
+Content-Type: application/json
+
+{
+  "name": "난 회사"
+}
