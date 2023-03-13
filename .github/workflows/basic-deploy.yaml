@@ -5,13 +5,45 @@ on:
   pull_request:
     branches: [ develop, master ]
 jobs:
-  test:
+  common:
+    runs-on: ubuntu-latest
     steps:
-      - name: Setup Java
-        uses: actions/setup-java@v3
-      - name: Start Test
-        uses: actions/checkout@v3
-        with:
-          distribution: temurin
-          java-version: '17'
-        run: ./gradlew test
+    - name: Check out repository
+      uses: actions/checkout@v3
+    - name: Setup Java
+      uses: actions/setup-java@v3
+      with:
+        distribution: 'temurin'
+        java-version: '17'
+        cache: 'gradle'
+  test:
+    needs: common
+    runs-on: ubuntu-latest
+    steps:
+    - name: Check out repository
+      uses: actions/checkout@v3
+    - name: Setup Java
+      uses: actions/setup-java@v3
+      with:
+        distribution: 'temurin'
+        java-version: '17'
+        cache: 'gradle'
+    - run: |
+        chmod +x gradlew
+        ./gradlew test
+  build:
+    needs: common
+    runs-on: ubuntu-latest
+    steps:
+    - name: Check out repository
+      uses: actions/checkout@v3
+    - name: Setup Java
+      uses: actions/setup-java@v3
+      with:
+        distribution: 'temurin'
+        java-version: '17'
+        cache: 'gradle'
+    - run: |
+        chmod +x gradlew
+        ./gradlew build --exclude-task test
+        
