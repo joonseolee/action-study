@@ -1,0 +1,17 @@
+name: basic-deploy
+on:
+  push:
+    branches: [ develop ]
+  pull_request:
+    branches: [ develop, master ]
+jobs:
+  test:
+    steps:
+      - name: Setup Java
+        uses: actions/setup-java@v3
+      - name: Start Test
+        uses: actions/checkout@v3
+        with:
+          distribution: temurin
+          java-version: '17'
+        run: ./gradlew test
