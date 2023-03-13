@@ -46,6 +46,7 @@ jobs:
     - name: Upload S3
       run: aws s3 cp --region ${{ env.AWS_REGION }} ./build/libs/*.jar s3://$S3_BUCKET_NAME
   deploy:
+    needs: [ test, build ]
     runs-on: ubuntu-latest
     steps:
       - name: Deploy the jar in the s3
@@ -55,5 +56,5 @@ jobs:
           host: ${{ secrets.AWS_EC2_HOST }}
           username: ${{ secrets.AWS_EC2_USER }}
           script: |
-            aws s3 cp s3://$S3_BUCKET_NAME/$JAR_FILE_NAME ./
-            nohup java -jar $JAR_FILE_NAME &
+            aws s3 cp s3://${{ env.S3_BUCKET_NAME }}/${{ env.JAR_FILE_NAME }} ./
+            nohup java -jar ${{ env.JAR_FILE_NAME }} &
