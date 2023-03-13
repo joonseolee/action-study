@@ -4,20 +4,11 @@ on:
     branches: [ develop, main ]
   pull_request:
     branches: [ develop, main ]
+env:
+  AWS_REGION: ap-northeast-2
+  S3_BUCKET_NAME: joonseolee
 jobs:
-  common:
-    runs-on: ubuntu-latest
-    steps:
-    - name: Check out repository
-      uses: actions/checkout@v3
-    - name: Setup Java
-      uses: actions/setup-java@v3
-      with:
-        distribution: 'temurin'
-        java-version: '17'
-        cache: 'gradle'
   test:
-    needs: common
     runs-on: ubuntu-latest
     steps:
     - name: Check out repository
@@ -32,7 +23,6 @@ jobs:
         chmod +x gradlew
         ./gradlew test
   build:
-    needs: common
     runs-on: ubuntu-latest
     steps:
     - name: Check out repository
@@ -46,4 +36,11 @@ jobs:
     - run: |
         chmod +x gradlew
         ./gradlew build --exclude-task test
-        
+    - name: Register AWS credential
+      uses: aws-actions/configure-aws-credentials@v2
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: $AWS_REGION
+    - name: Upload S3
+      run: aws s3 cp --region $AWS_REGION ./build/libs/*.jar s3://$S3_BUCKET_NAME
