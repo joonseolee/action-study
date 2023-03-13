@@ -1,9 +1,9 @@
 name: basic-deploy
 on:
   push:
-    branches: [ develop ]
+    branches: [ develop, main ]
   pull_request:
-    branches: [ develop, master ]
+    branches: [ develop, main ]
 jobs:
   common:
     runs-on: ubuntu-latest
