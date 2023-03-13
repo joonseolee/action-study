@@ -56,5 +56,8 @@ jobs:
           host: ${{ secrets.AWS_EC2_HOST }}
           username: ${{ secrets.AWS_EC2_USER }}
           script: |
+            kill $(ps -ef | grep 'action-study-0.0.1-SNAPSHOT.jar' | awk '{print $2}')
+            echo closed the server.
             aws s3 cp s3://${{ env.S3_BUCKET_NAME }}/${{ env.JAR_FILE_NAME }} ./
             nohup java -jar ${{ env.JAR_FILE_NAME }} &
+            echo started the server.
