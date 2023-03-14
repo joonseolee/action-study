@@ -56,4 +56,4 @@ jobs:
           username: ${{ secrets.AWS_EC2_USER }}
           script: |
             chmod 750 ./script/deploy.sh
-            ./script/deploy.sh $S3_BUCKET_NAME action-study-0.0.1-SNAPSHOT.jar
+            ./script/deploy.sh ${{ env.S3_BUCKET_NAME }} action-study-0.0.1-SNAPSHOT.jar
