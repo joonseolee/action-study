@@ -55,5 +55,5 @@ jobs:
           host: ${{ secrets.AWS_EC2_HOST }}
           username: ${{ secrets.AWS_EC2_USER }}
           script: |
-            chmod 750 ./script/deploy.sh
-            ./script/deploy.sh ${{ env.S3_BUCKET_NAME }} action-study-0.0.1-SNAPSHOT.jar
+            chmod 750 ./deploy.sh
+            ./deploy.sh ${{ env.S3_BUCKET_NAME }} actio
