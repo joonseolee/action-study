@@ -1,10 +1,10 @@
 name: release drafter
 on:
-  push:
-    branches:
-      - main
+  pull_request:
+    types: [ closed ]
 jobs:
   init-release-drafter:
+    if: github.event.pull_request.merged == true && github.base_ref == 'main'
     runs-on: ubuntu-latest
     permissions: write-all
     steps:
