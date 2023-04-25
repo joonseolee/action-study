@@ -1,9 +1,9 @@
 name: basic-deploy
 on:
   push:
-    branches: [ develop, main ]
+    branches: [ main ]
   pull_request:
-    branches: [ develop, main ]
+    branches: [ main ]
 env:
   AWS_REGION: ap-northeast-2
   S3_BUCKET_NAME: joonseolee
