@@ -6,6 +6,7 @@ on:
 jobs:
   init-release-drafter:
     runs-on: ubuntu-latest
+    permissions: write-all
     steps:
       - uses: release-drafter/release-drafter@v5
         with:
