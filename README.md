@@ -1,5 +1,11 @@
 # action-study
 
+목차
+1. [basic-deploy](#basic-deploy)
+2. [labeler-actio](#labeler-action)
+3. [기타](#기타)
+    1. [pull-request 승인수 강제](#pull-request-승인수-강제)
+
 ## basic-deploy
 
 한개의 원격 서버에 배포를 하는 방식으로  
